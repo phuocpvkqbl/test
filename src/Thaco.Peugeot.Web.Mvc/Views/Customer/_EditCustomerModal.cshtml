@@ -1,0 +1,106 @@
+﻿@using Thaco.Peugeot.Web.Models.Common.Modals
+@model Thaco.Peugeot.Web.Models.Customer.EditCustomerModalViewModel
+@{
+    Layout = null;
+}
+@Html.Partial("~/Views/Shared/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("EditCustomer")))
+
+<div class="modal-body">
+    <form name="CustomerEditForm" role="form" novalidate class="form-validation">
+        <input type="hidden" name="Id" value="@Model.Customer.Id" />
+        <div class="row clearfix">
+            <div class="col-sm-12">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <input id="firstName" type="text" name="FirstName" required maxlength="32" minlength="2" class="validate form-control" value="@Model.Customer.FirstName">
+                        <label for="firstName" class="form-label">@L("FirstName")</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-sm-12">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <input id="lastName" type="text" name="LastName" value="@Model.Customer.LastName" required maxlength="32" minlength="2" class="validate form-control">
+                        <label for="lastName" class="form-label">@L("LastName")</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-sm-12">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <input   id="birthday" type="date" name="Birthday" required maxlength="32" minlength="2" class="validate form-control" value="@Model.Customer.Birthday.ToString("yyyy-MM-dd")">
+                        <label for="birthday" class="form-label">@L("Birthday")</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-sm-12">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <input id="identityNumber" type="number" name="IdentityNumber" value="@Model.Customer.IdentityId" required maxlength="32" minlength="2" class="validate form-control">
+                        <label for="identityNumber" class="form-label">@L("IdentityNumber")</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-sm-12">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <input id="phoneNumber" type="number" name="MobileNumber" value="@Model.Customer.MobileNumber" required maxlength="32" minlength="2" class="validate form-control">
+                        <label for="phoneNumber" class="form-label">@L("PhoneNumber")</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-sm-12">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <input id="email" type="email" name="Email" value="@Model.Customer.Email" required maxlength="32" minlength="2" class="validate form-control">
+                        <label for="email" class="form-label">@L("Email")</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-sm-12">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <input id="address" type="text" name="Address" value="@Model.Customer.Address" required maxlength="32" minlength="2" class="validate form-control">
+                        <label for="address" class="form-label">@L("Address")</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-sm-12">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <input id="taxCode" type="text" name="TaxCode" value="@Model.Customer.TaxCode" required maxlength="32" minlength="2" class="validate form-control">
+                        <label for="taxCode" class="form-label">@L("TaxCode")</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-sm-12">
+                <div class="form-group form-float">
+                    <div class="form-line">
+                        <input id="website" type="text" name="Website" value="@Model.Customer.Website" required maxlength="32" minlength="2" class="validate form-control">
+                        <label for="website" class="form-label">@L("Website")</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@Html.Partial("~/Views/Shared/Modals/_ModalFooterWithSaveAndCancel.cshtml")
+
+<script src="~/view-resources/Views/Customer/_EditCustomerModal.js" asp-append-version="true"></script>
