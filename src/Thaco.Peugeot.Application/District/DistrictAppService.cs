@@ -22,7 +22,7 @@ namespace Thaco.Peugeot.District
             RoleManager roleManager, UserManager userManager)
            : base(repository)
         {
-            
+            _districtRepository = repository;
             _roleManager = roleManager;
             _userManager = userManager;
         }
@@ -36,6 +36,13 @@ namespace Thaco.Peugeot.District
             var districts = _districtRepository.GetAllWithCity(cityId);
             return Task.FromResult(new ListResultDto<DistrictDto>(ObjectMapper.Map<List<DistrictDto>>(districts)) 
             ); 
+        }
+        public Task<ListResultDto<DistrictDto>> GetAllDistrictsWithCity()
+        {
+            int? cityId = 124;
+            var districts = _districtRepository.GetAllWithCity(cityId);
+            return Task.FromResult(new ListResultDto<DistrictDto>(ObjectMapper.Map<List<DistrictDto>>(districts))
+            );
         }
     }
 }

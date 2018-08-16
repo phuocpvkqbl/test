@@ -16,6 +16,7 @@ namespace Thaco.Peugeot.EntityFrameworkCore.Repositories
         }
         public IList<District> GetAllWithCity(int? cityId)
         {
+            
             var query = GetAll();
             if (cityId.HasValue)
             {

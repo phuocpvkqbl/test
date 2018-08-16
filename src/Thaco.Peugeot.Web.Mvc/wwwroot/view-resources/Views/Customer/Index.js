@@ -2,7 +2,7 @@
     $(function() {
 
         var _customerService = abp.services.app.customer;
-        var _$modal = $('#CustomerCreateModal');
+        var _$modal = $('#modal-create-customer');
         var _$form = _$modal.find('form');
 
         $('#RefreshButton').click(function () {
@@ -58,16 +58,17 @@
             var districtSelect = $('select#district.form-control.validate');
             districtSelect.empty();
             if (selectedCity != null && selectedCity != '') {
-                $.getJSON('@Url.Action(District,GetDistrict")', { iso3: selectedCountry }, function (regions) {
-                    if (regions != null && !jQuery.isEmptyObject(regions)) {
-                        regionsSelect.append($('<option/>', {
+                $.getJSON('District/GetAllDistrictsWithCity', { cityId: selectedCity }, function (content) {
+                    content = content["result"];
+                    if (content != null && !jQuery.isEmptyObject(content)) {
+                        districtSelect.append($('<option/>', {
                             value: null,
                             text: ""
                         }));
-                        $.each(regions, function (index, region) {
-                            regionsSelect.append($('<option/>', {
-                                value: region.Value,
-                                text: region.Text
+                        $.each(content, function (index, content) {
+                            districtSelect.append($('<option/>', {
+                                value: content.id,
+                                text: content.name
                             }));
                         });
                     };

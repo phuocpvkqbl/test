@@ -37,14 +37,12 @@ namespace Thaco.Peugeot.Web.Controllers
         {
             var customers = (await _customerAppService.GetAll(new PagedResultRequestDto {MaxResultCount = int.MaxValue})).Items; // Paging not implemented yet
             var cities = (await _cityAppService.GetAll(new PagedResultRequestDto { MaxResultCount = int.MaxValue })).Items;
-            var districts = (await _districtAppService.GetAll(new PagedResultRequestDto { MaxResultCount = int.MaxValue })).Items;
-            var wards = (await _wardAppService.GetAll(new PagedResultRequestDto { MaxResultCount = int.MaxValue })).Items;
+            //var districts = (await _districtAppService.GetAllDistrictsWithCity()).Items;
+           // var wards = (await _wardAppService.GetAll(new PagedResultRequestDto { MaxResultCount = int.MaxValue })).Items;
             var model = new CustomerListViewModel
             {
                 Customer = customers,
-                Cities = cities,
-                Districts = districts,
-                Wards = wards
+                Cities = cities
             };
             return View(model);
         }

@@ -35,7 +35,8 @@
         }
     });
 
-    $.AdminBSB.input.activate(_$form);
+ 
+    $.adminlte.input.activate(_$form);
 
     _$modal.on('shown.bs.modal', function () {
         _$form.find('input[type=text]:first').focus();
