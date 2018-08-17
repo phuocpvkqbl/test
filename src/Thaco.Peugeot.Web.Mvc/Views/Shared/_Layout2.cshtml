@@ -19,7 +19,6 @@
 @{
     Layout = null;
     AbpAntiForgeryManager.SetCookie(Context);
-    var uiTheme = await SettingManager.GetSettingValueAsync(AppSettingNames.UiTheme);
 }
 <!DOCTYPE html>
 <html>
@@ -29,7 +28,7 @@
     <title>@ViewData["Title"] - MVC2</title>
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/bower_components/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/bower_components/font-awesome/css/font-awesome.css" />
         <link rel="stylesheet" href="~/bower_components/Ionicons/css/ionicons.css" />
         <link rel="stylesheet" href="~/dist/css/AdminLTE.css" />
@@ -57,7 +56,7 @@
         abp.appPath = '@ApplicationPath';
     </script>
 </head>
-<body>
+<body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
         <header class="main-header">
             <!-- Logo -->
@@ -534,7 +533,27 @@
             </section>
             <!-- Main content -->
             <section class="content">
-                @RenderBody()
+                <div class="container-fluid">
+                    @if (AlertManager.Alerts.Any())
+                    {
+                        <div id="AbpPageAlerts">
+                            @foreach (var alertMessage in AlertManager.Alerts)
+                            {
+                                <div class="alert alert-@alertMessage.Type.ToString().ToLower() @(alertMessage.Dismissible ? "alert-dismisable" : "")" role="alert">
+                                    <h4 class="alert-heading">
+                                        @alertMessage.Title
+                                        @if (alertMessage.Dismissible)
+                                        {
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                        }
+                                    </h4>
+                                    <p>@alertMessage.Text</p>
+                                </div>
+                            }
+                        </div>
+                    }
+                    @RenderBody()
+                </div>
             </section>
             <!-- /.content -->
         </div>
@@ -549,29 +568,30 @@
     </div>
 
     <environment include="Development">
+        <script src="~/lib/json2/json2.js" asp-append-version="true"></script>
         <!-- jQuery 3 -->
-        <script src="~/bower_components/jquery/dist/jquery.js"></script>
+        <script src="~/bower_components/jquery/dist/jquery.js" asp-append-version="true"></script>
         <script src="~/lib/jquery-validation/dist/jquery.validate.js" asp-append-version="true"></script>
         <!-- Bootstrap 3.3.7 -->
-        <script src="~/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/bower_components/bootstrap/dist/js/bootstrap.js" asp-append-version="true"></script>
         <script src="~/lib/moment/min/moment-with-locales.js" asp-append-version="true"></script>
         <script src="~/lib/blockUI/jquery.blockUI.js" asp-append-version="true"></script>
         <script src="~/lib/toastr/toastr.js" asp-append-version="true"></script>
         <script src="~/lib/sweetalert/dist/sweetalert.min.js" asp-append-version="true"></script>
         <!-- DataTables -->
-        <script src="~/bower_components/datatables.net/js/jquery.dataTables.js"></script>
-        <script src="~/bower_components/datatables.net-bs/js/dataTables.bootstrap.js"></script>
+        <script src="~/bower_components/datatables.net/js/jquery.dataTables.js" asp-append-version="true"></script>
+        <script src="~/bower_components/datatables.net-bs/js/dataTables.bootstrap.js" asp-append-version="true"></script>
         <!-- SlimScroll -->
-        <script src="~/bower_components/jquery-slimscroll/jquery.slimscroll.js"></script>
+        <script src="~/bower_components/jquery-slimscroll/jquery.slimscroll.js" asp-append-version="true"></script>
         <!-- FastClick -->
-        <script src="~/bower_components/fastclick/lib/fastclick.js"></script>
+        <script src="~/bower_components/fastclick/lib/fastclick.js" asp-append-version="true"></script>
         <!-- AdminLTE App -->
-        <script src="~/dist/js/adminlte.js"></script>
+        <script src="~/dist/js/adminlte.js" asp-append-version="true"></script>
         <!-- AdminLTE for demo purposes -->
-        <script src="~/dist/js/demo.js"></script>
+        <script src="~/dist/js/demo.js" asp-append-version="true"></script>
         <script src="~/lib/Waves/dist/waves.js" asp-append-version="true"></script>
         <script src="~/lib/push.js/push.js" asp-append-version="true"></script>
-        <script src="~/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+        <script src="~/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js" asp-append-version="true"></script>
         <script src="~/lib/abp-web-resources/Abp/Framework/scripts/abp.js" asp-append-version="true"></script>
         <script src="~/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.jquery.js" asp-append-version="true"></script>
         <script src="~/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.toastr.js" asp-append-version="true"></script>
@@ -580,6 +600,10 @@
         <script src="~/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.sweet-alert.js" asp-append-version="true"></script>
         <script src="~/js/admin.js" asp-append-version="true"></script>
         <script src="~/js/main.js" asp-append-version="true"></script>
+        @if (CultureInfo.CurrentUICulture.Name != "en")
+        {
+            <script src="~/lib/jquery-validation/src/localization/messages_@Html.Raw(CultureInfo.CurrentUICulture.Name.Replace("-", "_") + ".js")" asp-append-version="true"></script>
+        }
     </environment>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
@@ -605,6 +629,7 @@
     <script src="~/AbpScripts/GetScripts?v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
     <script src="~/lib/signalr-client/signalr.min.js" asp-append-version="true"></script>
     <script src="~/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.signalr-client.js" asp-append-version="true"></script>
+    @WebResourceManager.RenderScripts()
     @RenderSection("Scripts", required: false)
 </body>
 </html>

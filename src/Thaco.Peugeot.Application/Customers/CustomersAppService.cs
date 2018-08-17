@@ -47,9 +47,15 @@ namespace Thaco.Peugeot.Customers
         }
         protected override void MapToEntity(CustomerDto input, Thaco.Peugeot.Entities.Customer entity)
         {
-            //ObjectMapper.Map(input, entity);
-            //news.SetNormalizedNames();
+            entity.FirstName = input.FirstName;
+            entity.LastName = input.LastName;
+            entity.Email = input.Email;
+            entity.MobileNumber = input.MobileNumber;
+            entity.Address = input.Address;
             entity.Birthday = input.Birthday;
+            entity.Website = input.Website;
+            entity.TaxCode = input.TaxCode;
+          
         }
     }
 }

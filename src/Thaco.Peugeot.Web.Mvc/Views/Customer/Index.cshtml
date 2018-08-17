@@ -18,7 +18,11 @@
                 'ordering': true,
                 'info': true,
                 'autoWidth': false,
-                scrollX: true
+                scrollX: true,
+                scrollCollapse: true,
+                fixedColumns: {
+                    leftColumns: 1
+                }
             })
             //Date picker
             $('.datepicker').datepicker({
@@ -67,7 +71,7 @@
                             {
                                 <tr>
                                     <td width="10px">
-                                        <a class="btn btn-primary btn-sm edit-customer" id="btnedit" name="btnedit" data-customer-id="@customer.Id"><i class="fa fa-edit fa-sm"></i></a>
+                                        <a class="btn btn-primary btn-sm edit-customer" id="btnedit" name="btnedit" data-customer-id="@customer.Id" data-toggle="modal" data-target="#CustomerEditModal"><i class="fa fa-edit fa-sm"></i></a>
                                         <a class="btn btn-primary btn-sm delete-customer" id="btndelete" name="btndelete" data-customer-id="@customer.Id" data-customer-name="@customer.FirstName @customer.LastName"><i class="fa fa-trash-o fa-sm"></i></a>
                                     </td>
                                     <td>@customer.FirstName @customer.LastName</td>
