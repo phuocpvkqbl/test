@@ -15,7 +15,7 @@
         abp.ui.setBusy(_$form);
         _newService.update(news).done(function () {
             _$modal.modal('hide');
-            location.reload(true); //reload page to see edited role!
+            location.reload(true); //reload page to see edited news!
         }).always(function () {
             abp.ui.clearBusy(_$modal);
         });
@@ -35,7 +35,7 @@
         }
     });
 
-    $.AdminBSB.input.activate(_$form);
+    //$.AdminBSB.input.activate(_$form);
 
     _$modal.on('shown.bs.modal', function () {
         _$form.find('input[type=text]:first').focus();

@@ -2,6 +2,9 @@
 <localizationDictionary culture="en">
   <texts>
     <text name="HomePage" value="Home page" />
+    <text name="Notification" value="Notification" />
+    <text name="Company" value="Company" />
+    <text name="Document" value="Document" />
     <text name="About" value="About" />
     <text name="WellcomeMessage" value="Welcome to Peugeot!" />
     <text name="FormIsNotValidMessage" value="Form is not valid. Please check and fix errors." />

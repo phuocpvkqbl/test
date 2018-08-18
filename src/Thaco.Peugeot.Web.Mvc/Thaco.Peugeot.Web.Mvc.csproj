@@ -1003,6 +1003,9 @@
     <Content Update="Views\Appointment\_EditAppointmentModal.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Shared\Components\LeftSideBar\Default.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Shared\Modals\_BoxFooterWithSaveAndCancel.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

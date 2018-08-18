@@ -2,8 +2,8 @@
 	$(function () {
 
         var _newsService = abp.services.app.news;
-		var _$modal = $('#NewsCreateModal');
-		var _$form = _$modal.find('form');
+        var _$modal = $('#modal-create-news');
+        var _$form = _$modal.find('form');
 
 		_$form.validate({
 		});

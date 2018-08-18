@@ -13,5 +13,6 @@
         public const string Company = "Company";
         public const string Document = "Document";
         public const string Appointment = "Appointment";
+        public const string Notification = "Notification"; 
     }
 }
