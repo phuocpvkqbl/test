@@ -2,7 +2,7 @@
     $(function() {
 
         var _userService = abp.services.app.user;
-        var _$modal = $('#UserCreateModal');
+        var _$modal = $('#modal-create-user');
         var _$form = _$modal.find('form');
 
         _$form.validate({
@@ -34,7 +34,7 @@
                 type: 'POST',
                 contentType: 'application/html',
                 success: function (content) {
-                    $('#UserEditModal div.modal-content').html(content);
+                    $('#modal-edit-user div.modal-content').html(content);
                 },
                 error: function (e) { }
             });

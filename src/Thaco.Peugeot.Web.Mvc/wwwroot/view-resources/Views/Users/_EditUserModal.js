@@ -1,8 +1,8 @@
 ﻿(function ($) {
 
     var _userService = abp.services.app.user;
-    var _$modal = $('#UserEditModal');
-    var _$form = $('form[name=UserEditForm]');
+    var _$modal = $('#modal-edit-user');
+    var _$form = $('form[name=form-edit-user]');
 
     function save() {
 
@@ -42,8 +42,6 @@
             save();
         }
     });
-
-    $.AdminBSB.input.activate(_$form);
 
     _$modal.on('shown.bs.modal', function () {
         _$form.find('input[type=text]:first').focus();

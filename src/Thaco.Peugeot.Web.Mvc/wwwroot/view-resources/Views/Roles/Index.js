@@ -2,7 +2,7 @@
 	$(function () {
 
 		var _roleService = abp.services.app.role;
-		var _$modal = $('#RoleCreateModal');
+		var _$modal = $('#modal-create-role');
 		var _$form = _$modal.find('form');
 
 		_$form.validate({
@@ -28,7 +28,7 @@
 				type: 'POST',
 				contentType: 'application/html',
 				success: function (content) {
-					$('#RoleEditModal div.modal-content').html(content);
+					$('#modal-edit-role div.modal-content').html(content);
 				},
 				error: function (e) { }
 			});
