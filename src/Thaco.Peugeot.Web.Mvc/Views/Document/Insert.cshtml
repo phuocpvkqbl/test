@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewData["Title"] = "Insert";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+@section scripts { 
+    <environment names="Development">
+        <script>
+            CKEDITOR.replace("contentCKEditor")
+        </script>
+    </environment>
+}
+
+    <div class="row clearfix">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">@L("Document")</h3>
+                </div>
+                <div class="box-body">
+                    <form id="form-create-document" asp-action="Insert" asp-controller="Document"
+                          method="post">
+                        <div class="row clearfix">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label for="title">@L("Title")</label>
+                                    <input id="title" type="text" name="Title" required class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group">
+                                    <label for="contentCKEditor">@L("Content")</label>
+                                    <textarea id="contentCKEditor" type="text" name="Content" required class="form-control"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row clearfix">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group form-inline">
+                                    <button id="btnsave" type="submit" class="btn btn-primary form-control">@L("Save")</button>
+                                    <button id="btncancel" type="button" class="btn btn-primary form-control" onclick="location.href='@Url.Action("Index")'">@L("Cancel")</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>
+

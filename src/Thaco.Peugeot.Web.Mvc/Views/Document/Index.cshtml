@@ -1,187 +1,233 @@
-﻿@using Abp.Authorization.Users
-@using Thaco.Peugeot.Web.Startup
-@model Thaco.Peugeot.Web.Models.Users.UserListViewModel
+﻿@using Thaco.Peugeot.Web.Startup
+@model Thaco.Peugeot.Web.Models.Document.DocumentListViewModel
 @{
-    ViewBag.CurrentPageName = PageNames.Users; // The menu item will be active for this page.
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+    ViewBag.CurrentPageName = PageNames.Roles; // The menu item will be active for this page.
 }
 @section scripts
-{
-    <environment names="Development">
-        <script src="~/view-resources/Views/Users/Index.js" asp-append-version="true"></script>
-    </environment>
-
+    {
+<environment names="Development">
+    <script src="~/view-resources/Views/Roles/Index.js" asp-append-version="true"></script>
+        <script>
+            $("#document-table").dataTable();
+            CKEDITOR.replace("editor")
+        </script>
+</environment>
     <environment names="Staging,Production">
-        <script src="~/view-resources/Views/Users/Index.min.js" asp-append-version="true"></script>
+        <script src="~/view-resources/Views/Roles/Index.min.js" asp-append-version="true"></script>
     </environment>
 }
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="card">
-            <div class="header">
-                <h2>
-                    @L("Users")
+        <div class="box">
+            <div class="box-header">
+                <h2 class="box-title">
+                    @L("Roles")
                 </h2>
-                <ul class="header-dropdown m-r--5">
-                    <li class="dropdown">
-                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <i class="material-icons">more_vert</i>
-                        </a>
-                        <ul class="dropdown-menu pull-right">
-                            <li><a id="RefreshButton" href="javascript:void(0);" class="waves-effect waves-block"><i class="material-icons">refresh</i>@L("Refresh")</a></li>
-                        </ul>
-                    </li>
-                </ul>
             </div>
-            <div class="body table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>@L("UserName")</th>
-                            <th>@L("FullName")</th>
-                            <th>@L("EmailAddress")</th>
-                            <th>@L("IsActive")</th>
-                            <th>@L("Actions")</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var user in Model.Users)
-                        {
+            <div class="box-body">
+                <button type="button" onclick="location.href='@Url.Action("Insert", "Document")'" class="btn btn-primary" id="btnadd" name="btnadd" ><i class="fa fa-plus"> Add</i></button>
+                <div class="box-body">
+                    <table id="document-table" class="table table-striped table-bordered">
+                        <thead>
                             <tr>
-                                <td>@user.UserName</td>
-                                <td>@user.FullName</td>
-                                <td>@user.EmailAddress</td>
-                                <td><i class="material-icons" style="color:@(user.IsActive ? "green":"red");">@(user.IsActive ? "check_box" : "indeterminate_check_box")</i></td>
-                                <td class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                        <i class="material-icons">menu</i>
-                                    </a>
-                                    <ul class="dropdown-menu pull-right">
-                                        <li><a href="#" class="waves-effect waves-block edit-user" data-user-id="@user.Id" data-toggle="modal" data-target="#UserEditModal"><i class="material-icons">edit</i>@L("Edit")</a></li>
-                                        <li><a href="#" class="waves-effect waves-block delete-user" data-user-id="@user.Id" data-user-name="@user.UserName"><i class="material-icons">delete_sweep</i>@L("Delete")</a></li>
-                                    </ul>
-                                </td>
+                                <th>@L("Actions")</th>
+                                <th>@L("RoleName")</th>
+                                <th>@L("DisplayName")</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
-                <button type="button" class="btn btn-primary btn-circle waves-effect waves-circle waves-float pull-right" data-toggle="modal" data-target="#UserCreateModal">
-                    <i class="material-icons">add</i>
-                </button>
+                        </thead>
+                        <tbody>
+                            @foreach (var document in Model.Documents)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="#" class="waves-effect waves-block edit-role" data-role-id="@document.Id" data-toggle="modal" data-target="#modal-edit-role"><i class="fa document-edit"></i></a>
+                                        <a href="#" class="waves-effect waves-block delete-role" data-role-id="@document.Id" data-role-name="@document.Title"><i documentass="fa fa-trash-o"></i></a>
+                                    </td>
+                                    <td>@document.Title</td>
+                                    <td>@document.Title</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade" id="UserCreateModal" tabindex="-1" role="dialog" aria-labelledby="UserCreateModalLabel" data-backdrop="static">
+<div class="modal fade" id="modal-create-document" tabindex="-1" role="dialog"  data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">
-                    <span>@L("CreateNewUser")</span>
-                </h4>
-            </div>
-            <div class="modal-body">
-                <form name="userCreateForm" role="form" novalidate class="form-validation">
-                    <ul class="nav nav-tabs tab-nav-right" role="tablist">
-                        <li role="presentation" class="active"><a href="#create-user-details" data-toggle="tab">@L("UserDetails")</a></li>
-                        <li role="presentation"><a href="#create-user-roles" data-toggle="tab">@L("UserRoles")</a></li>
-                    </ul>
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane animated fadeIn active" id="create-user-details">
-                            <div class="row clearfix" style="margin-top:10px;">
-                                <div class="col-sm-12">
-                                    <div class="form-group form-float">
-                                        <div class="form-line">
-                                            <input class="form-control" type="text" name="UserName" required maxlength="@AbpUserBase.MaxUserNameLength" minlength="2">
-                                            <label class="form-label">@L("UserName")</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row clearfix">
-                                <div class="col-sm-6">
-                                    <div class="form-group form-float">
-                                        <div class="form-line">
-                                            <input type="text" name="Name" class="form-control" required maxlength="@AbpUserBase.MaxNameLength">
-                                            <label class="form-label">@L("Name")</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group form-float">
-                                        <div class="form-line">
-                                            <input type="text" name="Surname" class="form-control" required maxlength="@AbpUserBase.MaxSurnameLength">
-                                            <label class="form-label">@L("Surname")</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row clearfix">
-                                <div class="col-sm-12">
-                                    <div class="form-group form-float">
-                                        <div class="form-line">
-                                            <input type="email" name="EmailAddress" class="form-control" required maxlength="@AbpUserBase.MaxEmailAddressLength">
-                                            <label class="form-label">@L("EmailAddress")</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row clearfix">
-                                <div class="col-sm-12">
-                                    <div class="form-group form-float">
-                                        <div class="form-line">
-                                            <input type="password" id="Password" name="Password" class="form-control" required maxlength="@AbpUserBase.MaxPlainPasswordLength">
-                                            <label class="form-label">@L("Password")</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row clearfix">
-                                <div class="col-sm-12">
-                                    <div class="form-group form-float">
-                                        <div class="form-line">
-                                            <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" required maxlength="@AbpUserBase.MaxPlainPasswordLength">
-                                            <label class="form-label">@L("ConfirmPassword")</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row clearfix">
-                                <div class="col-sm-12">
-                                    <div class="checkbox">
-                                        <input type="checkbox" name="IsActive" value="true" id="CreateUserIsActive" class="filled-in" checked />
-                                        <label for="CreateUserIsActive">@L("IsActive")</label>
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h4 class="box-title">
+                        <span>@L("CreateNewDocument")</span>
+                    </h4>
+                </div>
+                <div class="box-body">
+                    <form name="form-create-form" role="form" novalidate class="form-validation">
+                        <div class="row clearfix">
+                            <div class="col-sm-12">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <label for="title" class="form-label">@L("Title")</label>
+                                        <input id="title" type="text" name="Title" required maxlength="32" minlength="2" class="validate form-control">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div role="tabpanel" class="tab-pane animated fadeIn" id="create-user-roles">
-                            <div class="row">
-                                <div class="col-sm-12 ">
-                                    @foreach (var role in Model.Roles)
-                                    {
-                                        <div class="col-sm-6">
-                                            <input type="checkbox" name="role" value="@role.NormalizedName" title="@role.Description" class="filled-in" id="role-@role.Id" />
-                                            <label for="role-@role.Id" title="@role.DisplayName">@role.Name</label>
-                                        </div>
-                                    }
-                                </div>
+                        <div class="row clearfix">
+                            <div class="col-sm-12">
+                                <textarea id="editor"></textarea>
                             </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">@L("Cancel")</button>
-                        <button type="submit" class="btn btn-primary waves-effect">@L("Save")</button>
-                    </div>
-                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">@L("Save")</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">@L("Cancel")</button>
+                            </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="UserEditModal" tabindex="-1" role="dialog" aria-labelledby="UserEditModalLabel" data-backdrop="static">
+<div class="modal fade" id="modal-edit-role" tabindex="-1" role="dialog"  data-backdrop="static">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-
+        <div class="box box-primary">
         </div>
     </div>
 </div>
+
+<style>
+    .document-editor {
+        border: 1px solid var(--ck-color-base-border);
+        border-radius: var(--ck-border-radius);
+        /* Set vertical boundaries for the document editor. */
+        max-height: 700px;
+        /* This element is a flex container for easier rendering. */
+        display: flex;
+        flex-flow: column nowrap;
+    }
+
+    .document-editor__toolbar {
+        /* Make sure the toolbar container is always above the editable. */
+        z-index: 1;
+        /* Create the illusion of the toolbar floating over the editable. */
+        box-shadow: 0 0 5px hsla( 0,0%,0%,.2 );
+        /* Use the CKEditor CSS variables to keep the UI consistent. */
+        border-bottom: 1px solid var(--ck-color-toolbar-border);
+    }
+
+        /* Adjust the look of the toolbar inside of the container. */
+        .document-editor__toolbar .ck-toolbar {
+            border: 0;
+            border-radius: 0;
+        }
+
+    /* Make the editable container look like the inside of a native word processor app. */
+    .document-editor__editable-container {
+        padding: calc( 2 * var(--ck-spacing-large) );
+        background: var(--ck-color-base-foreground);
+        /* Make it possible to scroll the "page" of the edited content. */
+        overflow-y: scroll;
+    }
+
+        .document-editor__editable-container .document-editor__editable.ck-editor__editable {
+            /* Set the dimensions of the "page". */
+            width: 15.8cm;
+            min-height: 21cm;
+            /* Keep the "page" off the boundaries of the container. */
+            padding: 1cm 2cm 2cm;
+            border: 1px hsl( 0,0%,82.7% ) solid;
+            border-radius: var(--ck-border-radius);
+            background: white;
+            /* The "page" should cast a slight shadow (3D illusion). */
+            box-shadow: 0 0 5px hsla( 0,0%,0%,.1 );
+            /* Center the "page". */
+            margin: 0 auto;
+        }
+
+    /* Override the page's width in the "Examples" section which is wider. */
+    .main__content-wide .document-editor__editable-container .document-editor__editable.ck-editor__editable {
+        width: 18cm;
+    }
+
+    /* Set the default font for the "page" of the content. */
+    .document-editor .ck-content,
+    .document-editor .ck-heading-dropdown .ck-list .ck-button__label {
+        font: 16px/1.6 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    /* Adjust the headings dropdown to host some larger heading styles. */
+    .document-editor .ck-heading-dropdown .ck-list .ck-button__label {
+        line-height: calc( 1.7 * var(--ck-line-height-base) * var(--ck-font-size-base) );
+        min-width: 6em;
+    }
+
+    /* Scale down all heading previews because they are way too big to be presented in the UI.
+    Preserve the relative scale, though. */
+    .document-editor .ck-heading-dropdown .ck-list .ck-button:not(.ck-heading_paragraph) .ck-button__label {
+        transform: scale(0.8);
+        transform-origin: left;
+    }
+
+    /* Set the styles for "Heading 1". */
+    .document-editor .ck-content h2,
+    .document-editor .ck-heading-dropdown .ck-heading_heading1 .ck-button__label {
+        font-size: 2.18em;
+        font-weight: normal;
+    }
+
+    .document-editor .ck-content h2 {
+        line-height: 1.37em;
+        padding-top: .342em;
+        margin-bottom: .142em;
+    }
+
+    /* Set the styles for "Heading 2". */
+    .document-editor .ck-content h3,
+    .document-editor .ck-heading-dropdown .ck-heading_heading2 .ck-button__label {
+        font-size: 1.75em;
+        font-weight: normal;
+        color: hsl( 203, 100%, 50% );
+    }
+
+    .document-editor .ck-heading-dropdown .ck-heading_heading2.ck-on .ck-button__label {
+        color: var(--ck-color-list-button-on-text);
+    }
+
+    /* Set the styles for "Heading 2". */
+    .document-editor .ck-content h3 {
+        line-height: 1.86em;
+        padding-top: .171em;
+        margin-bottom: .357em;
+    }
+
+    /* Set the styles for "Heading 3". */
+    .document-editor .ck-content h4,
+    .document-editor .ck-heading-dropdown .ck-heading_heading3 .ck-button__label {
+        font-size: 1.31em;
+        font-weight: bold;
+    }
+
+    .document-editor .ck-content h4 {
+        line-height: 1.24em;
+        padding-top: .286em;
+        margin-bottom: .952em;
+    }
+
+    /* Set the styles for "Paragraph". */
+    .document-editor .ck-content p {
+        font-size: 1em;
+        line-height: 1.63em;
+        padding-top: .5em;
+        margin-bottom: 1.13em;
+    }
+
+    /* Make the block quoted text serif with some additional spacing. */
+    .document-editor .ck-content blockquote {
+        font-family: Georgia, serif;
+        margin-left: calc( 2 * var(--ck-spacing-large) );
+        margin-right: calc( 2 * var(--ck-spacing-large) );
+    }
+</style>
