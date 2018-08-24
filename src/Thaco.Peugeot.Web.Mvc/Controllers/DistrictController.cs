@@ -30,7 +30,7 @@ namespace Thaco.Peugeot.Web.Controllers
         [HttpGet]
         public ActionResult GetAllDistrictsWithCity(int? cityId)
         {
-            var districts =  _districtAppService.GetAllDistrictsWithCity(cityId).Result.Items;
+           // var districts =  _districtAppService.GetAllDistrictsWithCity(cityId).Result.Items;
             IEnumerable<DistrictDto> a = new List<DistrictDto>()
             {
                 new DistrictDto
@@ -46,7 +46,7 @@ namespace Thaco.Peugeot.Web.Controllers
                     Id =3,Name="3"
                 }
             };
-            return Json(districts);
+            return Json(a);
         }
     }
 }

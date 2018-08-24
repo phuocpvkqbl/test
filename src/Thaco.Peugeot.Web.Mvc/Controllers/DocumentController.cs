@@ -34,6 +34,11 @@ namespace Thaco.Peugeot.Web.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public async Task<ActionResult> Insert(string s)
+        {
+            return View();
+        }
 
         public async Task<ActionResult> EditAppointmentModal(int newsId)
         {

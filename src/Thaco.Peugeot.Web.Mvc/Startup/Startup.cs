@@ -39,7 +39,11 @@ namespace Thaco.Peugeot.Web.Startup
             services.AddScoped<IWebResourceManager, WebResourceManager>();
 
             services.AddSignalR();
-
+            services.Configure<IISOptions>(options =>
+            {
+                options.ForwardClientCertificate = false;
+            });
+            services.AddCors();
             // Configure Abp and Dependency Injection
             return services.AddAbp<PeugeotWebMvcModule>(
                 // Configure Log4Net logging

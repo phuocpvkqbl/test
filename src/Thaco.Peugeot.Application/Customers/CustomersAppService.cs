@@ -12,7 +12,6 @@ using Thaco.Peugeot.News.Dto;
 
 namespace Thaco.Peugeot.Customers
 {
-    [AbpAuthorize()]
     public class CustomerAppService:  AsyncCrudAppService<Thaco.Peugeot.Entities.Customer,CustomerDto,int, 
         PagedResultRequestDto, Thaco.Peugeot.Customers.Dto.CreateCustomersDto,CustomerDto>
     {

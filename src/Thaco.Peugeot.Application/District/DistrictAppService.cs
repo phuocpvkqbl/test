@@ -31,18 +31,18 @@ namespace Thaco.Peugeot.District
             ObjectMapper.Map(input, district);
             //news.SetNormalizedNames();
         }
-        public Task<ListResultDto<DistrictDto>> GetAllDistrictsWithCity(int? cityId)
-        {
-            var districts = _districtRepository.GetAllWithCity(cityId);
-            return Task.FromResult(new ListResultDto<DistrictDto>(ObjectMapper.Map<List<DistrictDto>>(districts)) 
-            ); 
-        }
-        public Task<ListResultDto<DistrictDto>> GetAllDistrictsWithCity()
-        {
-            int? cityId = 124;
-            var districts = _districtRepository.GetAllWithCity(cityId);
-            return Task.FromResult(new ListResultDto<DistrictDto>(ObjectMapper.Map<List<DistrictDto>>(districts))
-            );
-        }
+        //public Task<ListResultDto<DistrictDto>> GetAllDistrictsWithCity(int? cityId)
+        //{
+        //    var districts = _districtRepository.GetAllWithCity(cityId);
+        //    return Task.FromResult(new ListResultDto<DistrictDto>(ObjectMapper.Map<List<DistrictDto>>(districts)) 
+        //    ); 
+        //}
+        //public Task<ListResultDto<DistrictDto>> GetAllDistrictsWithCity()
+        //{
+        //    int? cityId = 124;
+        //    var districts = _districtRepository.GetAllWithCity(cityId);
+        //    return Task.FromResult(new ListResultDto<DistrictDto>(ObjectMapper.Map<List<DistrictDto>>(districts))
+        //    );
+        //}
     }
 }
